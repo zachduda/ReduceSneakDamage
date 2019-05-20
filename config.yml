@@ -1,0 +1,19 @@
+settings:
+  enable-plugin: true
+  use-permissions: false
+  
+  particles:
+    when-falling-sneak: true
+    when-falling-normal: true
+    
+  dmg-precent: 50.0
+  
+  round: true
+  
+  disabled-worlds:
+  - world_the_end
+  
+messages:
+  # Prefix has a space built in.
+  no-permission: '%prefix% &cYou do not have permission to do that.'
+  reload: '%prefix% &2Configuration has been reloaded.'
