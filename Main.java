@@ -24,6 +24,13 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 	ArrayList<String> nonoworlds = (ArrayList<String>) getConfig().getStringList("settings.disabled-worlds");
 	
 	public void onEnable() {
+		if(!Bukkit.getVersion().contains("1.14")) {
+		      Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+				  public void run() {
+						getLogger().warning("> This version DOES NOT support anything below 1.14. Please use RSD v1.3 for legacy support.");
+						getLogger().warning("> Download the legacy version: spigotmc.org/resources/reducesneakdamage.64357/download?version=258607");
+			}},200L);
+		}
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		  getConfig().options().copyDefaults(true);
 		  saveConfig();
@@ -56,29 +63,12 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 	
 	public void bass(CommandSender sender) {
 		if(sender instanceof Player) {
-			try {
         Player p = (Player)sender;
-        if (!Bukkit.getBukkitVersion().contains("1.8") && !Bukkit.getBukkitVersion().contains("1.7") && !Bukkit.getBukkitVersion().contains("1.6") && !Bukkit.getBukkitVersion().contains("1.5")) {
-            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 2.0f, 1.3f);
-        } else {
-            p.playSound(p.getLocation(), Sound.valueOf((String)"NOTE_BASS"), 2.0f, 1.3f);
-        }
-			}catch(Exception e) {
-				getLogger().info("Error, couldn't play sound for BASS. We don't support 1.4 or below.");
-			}
+        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 2.0f, 1.3f);
 	}}
 	
-    public void pop(Player sender) {
-    	try {
-        Player p = sender;
-        if (!Bukkit.getBukkitVersion().contains("1.8") && !Bukkit.getBukkitVersion().contains("1.7") && !Bukkit.getBukkitVersion().contains("1.6") && !Bukkit.getBukkitVersion().contains("1.5")) {
-            p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, 2.0f, 2.0f);
-        } else {
-            p.playSound(p.getLocation(), Sound.valueOf((String)"CHICKEN_EGG_POP"), 2.0f, 2.0f);
-        }
-	}catch(Exception e) {
-		getLogger().info("Error, couldn't play sound for POP. We don't support 1.4 or below.");
-	}
+    public void pop(Player p) {
+         p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, 2.0f, 2.0f);
     }
 	
 	  public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
@@ -148,12 +138,12 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 	    			
 	    			if(getConfig().getBoolean("settings.particles.when-falling-sneak")) {
 	    				// The following BLOOD code was borrowed by CraftGasM, Thank You <3
-	    			p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+	    			p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.RED_CONCRETE);
 	    			}
 	        } else { //if not sneaking
     			if(getConfig().getBoolean("settings.particles.when-falling-normal")) {
     				// The following BLOOD code was borrowed by CraftGasM, Thank You <3
-    			p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+    			p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.RED_CONCRETE);
     			}
 	        }
 	    			}}
