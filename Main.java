@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -12,6 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -74,7 +76,7 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 	  public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
 	  {
 		 if((cmd.getName().equalsIgnoreCase("reducesneakdmg") && args.length == 0)) {
-			sender.sendMessage("§e§lR§r§ereduced§6§lS§r§6neak§f§lD§r§fmg");
+			sender.sendMessage("§e§lR§r§eeduced§6§lS§r§6neak§f§lD§r§fmg");
 			sender.sendMessage("§7§oDo §f/rsd help §7for a list of commands.");
 			
 		 } else if((cmd.getName().equalsIgnoreCase("reducesneakdmg") && args.length == 1) && args[0].equalsIgnoreCase("help")) {
@@ -121,10 +123,15 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 		return false;
 	  }
 	  
-	    @EventHandler
+	    @EventHandler(priority = EventPriority.LOWEST)
 	    public void onDmg(EntityDamageEvent e) {
 	    	if(e.getEntity() instanceof Player) {
 		        Player p = (Player) e.getEntity();
+		        
+		        if(p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE)) {
+		        	return;
+		        }
+		        
 	    		if(getConfig().getBoolean("settings.enable-plugin") && !nonoworlds.contains(p.getLocation().getWorld().getName().toString())) {
 	        if(!getConfig().getBoolean("settings.use-permissions") || p.hasPermission("reducesneakdmg.use")) {
 	    		if (e.getCause() == DamageCause.FALL){
