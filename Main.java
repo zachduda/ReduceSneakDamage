@@ -25,6 +25,8 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 	String cprefix = "§8[§e§lR§r§eeduced§6§lS§r§6neak§f§lD§r§fmg§8]§f";
 	ArrayList<String> nonoworlds = (ArrayList<String>) getConfig().getStringList("settings.disabled-worlds");
 	
+	boolean enabled = false;
+	
 	public void onEnable() {
 		if(!Bukkit.getVersion().contains("1.14")) {
 		      Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
@@ -35,9 +37,11 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 		}
 		Bukkit.getServer().getPluginManager().registerEvents(this, this);
 		  getConfig().options().copyDefaults(true);
+		  getConfig().options().header("ReducedSneakDamage -- A 1.14.4 plugin by zach_attack\n\nNeed help? Join our support discord: https://discord.gg/6ugXPfX");
 		  saveConfig();
 		  
 		  if(getConfig().getBoolean("settings.enable-plugin")) {
+			  enabled = true;
 			  getLogger().info("All Ready! Now reducing fall damage by " + getConfig().getDouble("settings.dmg-precent") + "%");
 		        for(World worlds : Bukkit.getWorlds()) {
 		        	if(nonoworlds.contains(worlds.getName())) {
@@ -46,6 +50,10 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 			        }
 		  } else {
 			  getLogger().info("Plugin disabled via the configuration...");
+		  }
+		  
+		  if(Bukkit.getVersion().contains("1.14")) {
+		  getLogger().info("Need help with RSD? Join our support discord: https://discord.gg/6ugXPfX");
 		  }
 	}
 	
@@ -107,12 +115,14 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 				 getConfig().set("settings.enable-plugin", false);
 				 saveConfig();
 				 reloadConfig();
-				 sender.sendMessage(prefix + "Players §c§lwill§f now take normal damage when sneaking.");
+				 sender.sendMessage(prefix + "Players now take §c§lnormal fall damage §fwhen sneaking.");
+				 enabled = false;
 			 } else {
 				 getConfig().set("settings.enable-plugin", true);
 				 saveConfig();
 				 reloadConfig();
-				 sender.sendMessage(prefix + "Players §a§lwill§f take less fall damage if sneaking.");
+				 sender.sendMessage(prefix + "Players will take §a§lless fall damage §fif sneaking.");
+				 enabled = true;
 			 }
 		 } else if((cmd.getName().equalsIgnoreCase("reducesneakdmg") && args.length == 1) && args[0].equalsIgnoreCase("help")) {
 			 sender.sendMessage(prefix + "§7§lCommands:");
@@ -125,14 +135,14 @@ public class Main extends JavaPlugin implements Listener { //     Boo...
 	  
 	    @EventHandler(priority = EventPriority.LOWEST)
 	    public void onDmg(EntityDamageEvent e) {
-	    	if(e.getEntity() instanceof Player) {
+	    	if(e.getEntity() instanceof Player && !e.isCancelled()) {
 		        Player p = (Player) e.getEntity();
 		        
-		        if(p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE)) {
+		        if(p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE) || p.getAllowFlight()) {
 		        	return;
 		        }
 		        
-	    		if(getConfig().getBoolean("settings.enable-plugin") && !nonoworlds.contains(p.getLocation().getWorld().getName().toString())) {
+	    		if(enabled && !nonoworlds.contains(p.getLocation().getWorld().getName().toString())) {
 	        if(!getConfig().getBoolean("settings.use-permissions") || p.hasPermission("reducesneakdmg.use")) {
 	    		if (e.getCause() == DamageCause.FALL){
 	    			if(p.isSneaking()) {
