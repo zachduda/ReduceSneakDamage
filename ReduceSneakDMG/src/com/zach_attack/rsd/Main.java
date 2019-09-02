@@ -20,15 +20,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.LocalPlayer;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.regions.RegionQuery;
-
 public class Main extends JavaPlugin implements Listener {
 	
 	String prefix = "§8[§e§lR§r§eeduced§6§lS§r§6neak§f§lD§r§fmg§8] §f";
@@ -45,7 +36,8 @@ public class Main extends JavaPlugin implements Listener {
 	boolean useperms = false;
 	boolean particlessneak = false;
 	boolean particlesnorm = false;
-	boolean worldguard = false;
+	
+	static boolean worldguard = false;
 	
 	public void onEnable() {
 		if(!Bukkit.getVersion().contains("1.14")) {
@@ -101,18 +93,6 @@ public class Main extends JavaPlugin implements Listener {
 		  }
 		  
 		  useperms = getConfig().getBoolean("settings.use-permissions");
-	}
-	
-	public boolean canTakeFallDMG(Player p) {
-		if(worldguard) {
-		RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-	    RegionQuery query = container.createQuery();
-	    ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(p.getLocation()));
-	    LocalPlayer lp = WorldGuardPlugin.inst().wrapPlayer(p);
-	    if(set.testState(lp, Flags.FALL_DAMAGE) && !set.testState(lp, Flags.INVINCIBILITY)) {
-	    	return true;
-	    }}
-	    return false;
 	}
 	
 	public void reloadSound(CommandSender sender) {
@@ -202,10 +182,11 @@ public class Main extends JavaPlugin implements Listener {
 		        	return;
 		        }
 		        
-		        if(!canTakeFallDMG(p)) {
+		        if(worldguard) {
+		        if(!WG.canTakeFallDMG(p)) {
 		        	// WorldGuard Flags prohibited Fall DMG.
 		        	return;
-		        }
+		        }}
 		        
 	    		if(enabled && !nonoworlds.contains(p.getLocation().getWorld().getName())) {
 	        if(!useperms || p.hasPermission("reducesneakdmg.use")) {
