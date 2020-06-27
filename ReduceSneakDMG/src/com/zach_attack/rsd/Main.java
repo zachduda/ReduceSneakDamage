@@ -47,7 +47,7 @@ public class Main extends JavaPlugin implements Listener {
     private boolean sounds = true;
 
     private String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
-    private boolean supported = (version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15")) ?true :false;
+    private boolean supported = (version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16")) ?true :false;
 
     private boolean isGodMode(Player p) {
         if (ess) {
@@ -83,7 +83,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         if (!supported) {
         	Bukkit.getScheduler().runTask(this, () -> {
-        		getLogger().warning("> This version doesn't support this version of Minecraft. Only: 1.15, 1.14, 1.13 & 1.12.");
+        		getLogger().warning("> This version may not work for this version of Minecraft. (Supports 1.16 through 1.12)");
             });
         }
         
@@ -192,7 +192,7 @@ public class Main extends JavaPlugin implements Listener {
                 pop(sender);
                 return true;
             }
-            if (args.length == 1) {
+            if (args.length >= 1) {
                 if (args[0].equalsIgnoreCase("help")) {
                     sender.sendMessage(prefix + "To reload the plugin, do §7/rsd reload");
                     pop(sender);
