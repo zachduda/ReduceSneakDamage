@@ -1,6 +1,10 @@
 package com.zach_attack.rsd;
 
+import java.text.DecimalFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -11,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,8 +26,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.earth2me.essentials.Essentials;
+
+import me.clip.actionannouncer.ActionAPI;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -43,12 +53,18 @@ public class Main extends JavaPlugin implements Listener {
 
     private boolean ess = false;
     static boolean worldguard = false;
+    private boolean hasaa = false;
+    private boolean useaa = false;
+    private boolean notify = false;
     
     private boolean sounds = true;
 
     private String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
     private boolean supported = (version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16")) ?true :false;
 
+    static HashSet<UUID> hasseentip = new HashSet<UUID>();
+    private BukkitTask csht = null;
+    
     private boolean isGodMode(Player p) {
         if (ess) {
             Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
@@ -78,14 +94,22 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         return false;
-    }
+    }	
+    
+	private void stopTimers() {
+		if(csht != null) {
+			csht.cancel();
+		}
+	}
 
     public void onEnable() {
         if (!supported) {
         	Bukkit.getScheduler().runTask(this, () -> {
-        		getLogger().warning("> This version may not work for this version of Minecraft. (Supports 1.16 through 1.12)");
+        		getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.16 through 1.12)");
             });
         }
+        
+        hasseentip.clear();
         
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         getConfig().options().copyDefaults(true);
@@ -106,8 +130,20 @@ public class Main extends JavaPlugin implements Listener {
             ess = true;
             getLogger().info("Found Essentials. Hooking into Essentials for vanish/god-mode support...");
         }
+        
+        if (getServer().getPluginManager().isPluginEnabled("ActionAnnouncer") && (getServer().getPluginManager().getPlugin("ActionAnnouncer") != null)) {
+        	getLogger().info("Hooked into ActionAnnouncer.");
+            hasaa = true;
+        }
+        
+        csht = Bukkit.getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+    	    @Override
+    	    public void run() {
+    	    	hasseentip.clear();
+    	    }
+    	}, 1728000, 1728000); // 1 day
 
-        if (!supported) {
+        if (supported) {
             log.info("Need help with RSD? Join our support discord: https://discord.gg/6ugXPfX");
         }
     }
@@ -121,7 +157,9 @@ public class Main extends JavaPlugin implements Listener {
             precent = iprecent;
 
             round = getConfig().getBoolean("settings.round");
-
+            useaa = getConfig().getBoolean("settings.notify.use-action-bar");
+            notify = getConfig().getBoolean("settings.notify.enable");
+            
             if(nonoworlds.size() != 0) {
             	log.info("Disabled in world(s): " + nonoworlds.toString());
             }
@@ -144,6 +182,11 @@ public class Main extends JavaPlugin implements Listener {
         	particlesnorm = false;
         	// Disabled if an error is thrown -> sounds = false;
         }
+    }
+    
+    public void onDisable() {
+    	hasseentip.clear();
+    	stopTimers();
     }
 
     public void reloadSound(CommandSender sender) {
@@ -182,6 +225,30 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    private boolean aabail = false;
+    private boolean sendAA(Player p, String m, int time) {
+    	if(aabail)  {
+    		p.sendMessage(ChatColor.translateAlternateColorCodes('&', m).replace("%prefix%", cprefix));
+    		return false;
+    	}
+    	try {
+	    	if(!hasaa) {
+	    		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(m));
+				return false;
+	    	}
+	    	try {
+	    		ActionAPI.sendTimedPlayerAnnouncement(this, p, m, time);
+	    		return true;
+			} catch(Exception err) {
+				hasaa = false;
+				sendAA(p, m, time);
+			}
+    	} catch(Exception err) {
+    		aabail = true;
+    		sendAA(p, m, time);
+    	}
+    	return false;
+    }
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("reducesneakdmg")) {
             if (args.length == 0) {
@@ -240,7 +307,8 @@ public class Main extends JavaPlugin implements Listener {
         }
         return false;
     }
-
+    
+    final DecimalFormat df = new DecimalFormat("#.#");
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDmg(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player && !e.isCancelled()) {
@@ -266,11 +334,21 @@ public class Main extends JavaPlugin implements Listener {
                 if (!useperms || p.hasPermission("reducesneakdmg.use")) {
                     if (e.getCause() == DamageCause.FALL) {
                         if (p.isSneaking()) {
-
-                            if (round) {
-                                e.setDamage(Math.round(e.getDamage()) * (getConfig().getDouble("settings.dmg-precent") / 100));
-                            } else {
-                                e.setDamage((e.getDamage()) * (precent / 100));
+                        	
+                        	final double olddam = e.getDamage();
+                        	double newdam = 0;
+                        	if(round) {
+                        		newdam = Math.round(olddam) * (getConfig().getDouble("settings.dmg-precent") / 100);
+                        	} else {
+                        		newdam = ((olddam) * (precent / 100));
+                        	}
+                            e.setDamage(newdam);
+                            if(notify) {
+                            	if(useaa) {
+                            		sendAA(p, getConfig().getString("messages.fell").replace("%dmg%", df.format(olddam-newdam)), 2);
+                            	} else {
+                            		p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell").replace("%dmg%", df.format(olddam-newdam))));
+                            	}
                             }
 
                             if (!supported) {
@@ -281,6 +359,14 @@ public class Main extends JavaPlugin implements Listener {
                             }
                         } else {
                             // Player is NOT sneaking.
+                        	if(notify && !hasseentip.contains(p.getUniqueId())) {
+                        		if(useaa) {
+                            		sendAA(p, getConfig().getString("messages.fell-tip"), 5);
+                            	} else {
+                            		p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell-tip")));
+                            	}
+                        		hasseentip.add(p.getUniqueId());
+                        	}
                             if (particlesnorm && !isVanished(p)) {
                                 p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.RED_CONCRETE);
                             }

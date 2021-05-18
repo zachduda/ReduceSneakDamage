@@ -7,7 +7,9 @@ settings:
     when-falling-normal: true
     
   dmg-precent: 50.0
-  
+  notify:
+    enable: true
+    use-action-bar: true
   round: true
   
   disabled-worlds:
@@ -17,3 +19,5 @@ messages:
   # Prefix has a space built in.
   no-permission: '%prefix% &cYou do not have permission to do that.'
   reload: '%prefix% &2Configuration has been reloaded.'
+  fell: '&fYou saved &6&l%dmg% &fdamage by crouching'
+  fell-tip: '&6&lTip: &fNext time, crouch when you fall to reduce damage!'
