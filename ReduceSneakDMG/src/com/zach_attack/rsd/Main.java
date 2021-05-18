@@ -301,7 +301,7 @@ public class Main extends JavaPlugin implements Listener {
                     updateConfig();
                     return true;
                 }
-                sender.sendMessage(prefix + "§c§lError.§f The sub command §7§l" + args[1] + "§f couldn't be found.");
+                sender.sendMessage(prefix + "§c§lError.§f The sub command §7§l" + args[0] + "§f couldn't be found.");
                 bass(sender);
             }
         }
