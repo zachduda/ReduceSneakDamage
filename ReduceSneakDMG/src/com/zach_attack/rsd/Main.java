@@ -3,7 +3,6 @@ package com.zach_attack.rsd;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -15,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -60,7 +58,7 @@ public class Main extends JavaPlugin implements Listener {
     private boolean sounds = true;
 
     private String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
-    private boolean supported = (version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16")) ?true :false;
+    private boolean supported = (version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16") || version.contains("1.17")) ?true :false;
 
     static HashSet<UUID> hasseentip = new HashSet<UUID>();
     private BukkitTask csht = null;
@@ -105,7 +103,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         if (!supported) {
         	Bukkit.getScheduler().runTask(this, () -> {
-        		getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.16 through 1.12)");
+        		getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.17 through 1.12)");
             });
         }
         
