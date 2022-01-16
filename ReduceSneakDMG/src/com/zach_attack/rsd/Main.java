@@ -58,7 +58,7 @@ public class Main extends JavaPlugin implements Listener {
     private boolean sounds = true;
 
     private String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
-    private boolean supported = (version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16") || version.contains("1.17")) ?true :false;
+    private boolean supported = (version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16") || version.contains("1.17") || version.contains("1.18")) ?true :false;
 
     static HashSet<UUID> hasseentip = new HashSet<UUID>();
     private BukkitTask csht = null;
@@ -225,25 +225,26 @@ public class Main extends JavaPlugin implements Listener {
 
     private boolean aabail = false;
     private boolean sendAA(Player p, String m, int time) {
+    	final String mcd = ChatColor.translateAlternateColorCodes('&', m);
     	if(aabail)  {
-    		p.sendMessage(ChatColor.translateAlternateColorCodes('&', m).replace("%prefix%", cprefix));
+    		p.sendMessage(mcd.replace("%prefix%", cprefix));
     		return false;
     	}
     	try {
 	    	if(!hasaa) {
-	    		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(m));
+	    		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mcd));
 				return false;
 	    	}
 	    	try {
-	    		ActionAPI.sendTimedPlayerAnnouncement(this, p, m, time);
+	    		ActionAPI.sendTimedPlayerAnnouncement(this, p, mcd, time);
 	    		return true;
 			} catch(Exception err) {
 				hasaa = false;
-				sendAA(p, m, time);
+				sendAA(p, mcd, time);
 			}
     	} catch(Exception err) {
     		aabail = true;
-    		sendAA(p, m, time);
+    		sendAA(p, mcd, time);
     	}
     	return false;
     }
