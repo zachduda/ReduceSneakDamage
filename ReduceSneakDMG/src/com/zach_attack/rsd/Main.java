@@ -253,19 +253,29 @@ public class Main extends JavaPlugin implements Listener {
             if (args.length == 0) {
                 sender.sendMessage(" ");
                 sender.sendMessage("§e§lR§r§eeduced§6§lS§r§6neak§f§lD§r§fmg");
-                sender.sendMessage("§7§oDo §f/rsd help §7for a list of commands.");
+                sender.sendMessage("§7Do §f/rsd help §7for a list of commands.");
                 sender.sendMessage(" ");
                 pop(sender);
                 return true;
             }
             if (args.length >= 1) {
                 if (args[0].equalsIgnoreCase("help")) {
-                    sender.sendMessage(prefix + "To reload the plugin, do §7/rsd reload");
                     pop(sender);
+                    
+                	if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
+                		sender.sendMessage(prefix + "A plugin by zach_attack");
+                		return true;
+                	}
+                    sender.sendMessage(prefix + "To reload the plugin, do §7/rsd reload");
                     return true;
                 }
 
                 if (args[0].equalsIgnoreCase("reload")) {
+                	if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.no-permission")).replace("%prefix%", cprefix));
+                        bass(sender);
+                        return true;
+                    }
                     try {
                         reloadConfig();
                         updateConfig();
