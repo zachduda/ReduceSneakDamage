@@ -30,7 +30,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 8
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

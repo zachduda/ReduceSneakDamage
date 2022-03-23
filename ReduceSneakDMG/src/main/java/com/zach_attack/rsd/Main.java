@@ -297,7 +297,8 @@ public class Main extends JavaPlugin implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDmg(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player p && !e.isCancelled()) {
+        if (e.getEntity() instanceof Player && !e.isCancelled()) {
+            Player p = (Player) e.getEntity();
 
             if (p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE) || p.getAllowFlight() || isGodMode(p)) {
                 return;
