@@ -3,7 +3,7 @@ main: com.zach_attack.rsd.Main
 version: 2.0.3
 api-version: 1.13
 website: https://www.spigotmc.org/resources/reducesneakdamage.64357/
-description: Reduces a players damage when sneaking.
+description: Reduces a players fall damage when sneaking.
 softdepend: [ ActionAnnouncer, Essentials, WorldGuard, WorldEdit ]
 commands:
   reducesneakdmg:
