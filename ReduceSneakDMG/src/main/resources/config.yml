@@ -1,0 +1,23 @@
+settings:
+  enable-plugin: true
+  use-permissions: false
+  
+  particles:
+    when-falling-sneak: true
+    when-falling-normal: true
+
+  dmg-precent: 50.0
+  notify:
+    enable: true
+    use-action-bar: true
+  round: true
+  
+  disabled-worlds:
+    - world_the_end
+
+messages:
+  # Prefix has a space built in.
+  no-permission: '%prefix% &c&lSorry! &fYou can''t do that here'
+  reload: '%prefix% &fThe config was reloaded.'
+  fell: '&fYou saved &6&l%dmg% &fdamage by crouching'
+  fell-tip: '&6&lTip: &fNext time, crouch when you fall to reduce damage!'
