@@ -5,4 +5,4 @@ percentage. It also can disable particles and be toggled per world.
 
 # Spigot
 
-View this plugin on spigot: https://www.spigotmc.org/resources/reducesneakdamage.64357/
+You can view this plugin on [SpigotMC](https://www.spigotmc.org/resources/reducesneakdamage.64357/).
