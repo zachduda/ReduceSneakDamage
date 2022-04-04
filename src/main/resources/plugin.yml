@@ -1,0 +1,19 @@
+name: ReduceSneakDamage
+main: com.zach_attack.rsd.Main
+version: 2.0.3
+api-version: 1.13
+authors: [ 'zach_attack' ]
+website: https://www.spigotmc.org/resources/reducesneakdamage.64357/
+description: Reduces a players fall damage when sneaking.
+softdepend: [ ActionAnnouncer, Essentials, WorldGuard, WorldEdit ]
+commands:
+  reducesneakdmg:
+    description: Displays basic plugin info for ReducedSneakDmg
+    aliases: [ rsd, reducesneakdamage ]
+permissions:
+  reducesneakdmg.use:
+    description: Players with this permission will take less damage.
+    default: true
+  reducesneakdmg.admin:
+    description: Players with this permission can reload the plugin.
+    default: op
