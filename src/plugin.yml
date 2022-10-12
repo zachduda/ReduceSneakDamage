@@ -6,7 +6,7 @@ prefix: ReduceSneakDMG
 softdepend: [ ActionAnnouncer, Essentials, WorldGuard, WorldEdit ]
 authors: [ zach_attack ]
 description: Reduces a players fall damage when sneaking.
-website: https://www.spigotmc.org/resources/reducesneakdamage.64357/
+website: https://zachduda.com/reducesneakdmg
 commands:
   reducesneakdmg:
     description: Displays basic plugin info for ReducedSneakDmg
