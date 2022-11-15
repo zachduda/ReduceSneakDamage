@@ -1,6 +1,7 @@
 package com.zachduda.rsd;
 
 import com.earth2me.essentials.Essentials;
+import com.zachduda.puuids.api.PUUIDS;
 import me.clip.actionannouncer.ActionAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -46,6 +47,7 @@ public class Main extends JavaPlugin implements Listener {
     private boolean ess = false;
     private boolean hasaa = false;
     private boolean useaa = false;
+    private boolean hasPUUIDs = false;
     private boolean notify = false;
     private boolean sounds = true;
     private BukkitTask csht = null;
@@ -60,7 +62,7 @@ public class Main extends JavaPlugin implements Listener {
         return false;
     }
 
-    private boolean isVanished(Player player) {
+    private boolean isNotVanished(Player player) {
         if (ess) {
             Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
             if (ess.getUser(player).isVanished()) {
@@ -112,6 +114,18 @@ public class Main extends JavaPlugin implements Listener {
         if (getServer().getPluginManager().isPluginEnabled("ActionAnnouncer") && (getServer().getPluginManager().getPlugin("ActionAnnouncer") != null)) {
             getLogger().info("Hooked into ActionAnnouncer.");
             hasaa = true;
+        }
+
+        if (getServer().getPluginManager().isPluginEnabled("PUUIDs") && (getServer().getPluginManager().getPlugin("PUUIDs") != null)) {
+            getLogger().info("Hooked into PUUIDs for saving damage saved.");
+            try {
+                if (PUUIDS.connect(this, PUUIDS.APIVersion.V4)) {
+                    hasPUUIDs = true;
+                }
+            } catch(Exception e) {
+                getLogger().warning("Unable to connect to PUUIDs: ");
+                e.getMessage();
+            }
         }
 
         csht = Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> hasseentip.clear(), 1728000, 1728000); // 1 day
@@ -249,6 +263,29 @@ public class Main extends JavaPlugin implements Listener {
                 return true;
             }
 
+            if (args[0].equalsIgnoreCase("stats")) {
+                if(!hasPUUIDs) {
+                    sender.sendMessage(prefix + "§cYou must have the PUUIDs API from Spigot to save per-player stats.");
+                    bass(sender);
+                    return true;
+                }
+
+                if(!(sender instanceof Player)) {
+                    sender.sendMessage(prefix + "§cOnly players can use the stats sub-command");
+                    return true;
+                }
+
+                if (!sender.hasPermission("reducesneakdmg.stats") && useperms && !sender.isOp()) {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.no-permission")).replace("%prefix%", cprefix));
+                    bass(sender);
+                    return true;
+                }
+                Player p = (Player) sender;
+                pop(sender);
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.stats")).replace("%dmg%", df.format(PUUIDS.getDouble(this, p.getUniqueId().toString(), "DMG-Saved"))));
+                return true;
+            }
+
             if (args[0].equalsIgnoreCase("reload")) {
                 if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.no-permission")).replace("%prefix%", cprefix));
@@ -295,84 +332,98 @@ public class Main extends JavaPlugin implements Listener {
         return false;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onDmg(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player && !e.isCancelled()) {
-            Player p = (Player) e.getEntity();
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            if (e.getEntity() instanceof Player && !e.isCancelled()) {
+                Player p = (Player) e.getEntity();
 
-            if (p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE) || p.getAllowFlight() || isGodMode(p)) {
-                return;
-            }
-
-            try {
-                if (worldguard) {
-                    if (!WG.canTakeFallDMG(p)) {
-                        // WorldGuard Flags prohibited Fall DMG.
-                        return;
-                    }
+                if (p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE) || p.getAllowFlight() || isGodMode(p)) {
+                    return;
                 }
-            } catch (Exception err) {
-                log.warning("Unable to test for WorldGuard flags. This feature will be disabled.");
-                worldguard = false;
-            }
 
-            if (enabled && !nonoworlds.contains(p.getLocation().getWorld().getName())) {
-                if (!useperms || p.hasPermission("reducesneakdmg.use")) {
-                    if (e.getCause() == DamageCause.FALL) {
-                        if (p.isSneaking()) {
+                try {
+                    if (worldguard) {
+                        if (!WG.canTakeFallDMG(p)) {
+                            // WorldGuard Flags prohibited Fall DMG.
+                            return;
+                        }
+                    }
+                } catch (Exception err) {
+                    log.warning("Unable to test for WorldGuard flags. This feature will be disabled.");
+                    worldguard = false;
+                }
 
-                            final double olddam = e.getDamage();
-                            double newdam;
-                            if (round) {
-                                newdam = Math.round(olddam) * (getConfig().getDouble("settings.dmg-precent") / 100);
+                if (enabled && !nonoworlds.contains(p.getLocation().getWorld().getName())) {
+                    if (!useperms || p.hasPermission("reducesneakdmg.use")) {
+                        if (e.getCause() == DamageCause.FALL) {
+                            if (p.isSneaking()) {
+
+                                final double olddam = e.getDamage();
+                                double newdam;
+                                if (round) {
+                                    newdam = Math.round(olddam) * (getConfig().getDouble("settings.dmg-precent") / 100);
+                                } else {
+                                    newdam = ((olddam) * (precent / 100));
+                                }
+                                e.setDamage(newdam);
+                                final double diff = olddam - newdam;
+
+                                if (notify) {
+                                    if (useaa) {
+                                        sendAA(p, getConfig().getString("messages.fell").replace("%dmg%", df.format(diff)), 2);
+                                    } else {
+                                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell").replace("%dmg%", df.format(diff))));
+                                    }
+                                }
+
+                                if (hasPUUIDs) {
+                                    final String sid = p.getUniqueId().toString();
+                                    PUUIDS.set(this, sid, "DMG-Saved", diff+PUUIDS.getInt(this, sid, "DMG-Saved"));
+                                }
+
+                                if (supported && particlessneak && isNotVanished(p)) {
+                                    p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.RED_CONCRETE);
+                                }
                             } else {
-                                newdam = ((olddam) * (precent / 100));
-                            }
-                            e.setDamage(newdam);
-                            if (notify) {
-                                if (useaa) {
-                                    sendAA(p, getConfig().getString("messages.fell").replace("%dmg%", df.format(olddam - newdam)), 2);
-                                } else {
-                                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell").replace("%dmg%", df.format(olddam - newdam))));
+                                // Player is NOT sneaking.
+                                if (notify && !hasseentip.contains(p.getUniqueId())) {
+                                    if (useaa) {
+                                        sendAA(p, getConfig().getString("messages.fell-tip"), 5);
+                                    } else {
+                                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell-tip")));
+                                    }
+                                    hasseentip.add(p.getUniqueId());
                                 }
-                            }
-
-                            if (!supported) {
-                                return;
-                            }
-                            if (particlessneak && isVanished(p)) {
-                                p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.RED_CONCRETE);
-                            }
-                        } else {
-                            // Player is NOT sneaking.
-                            if (notify && !hasseentip.contains(p.getUniqueId())) {
-                                if (useaa) {
-                                    sendAA(p, getConfig().getString("messages.fell-tip"), 5);
-                                } else {
-                                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell-tip")));
+                                if (supported && particlesnorm && isNotVanished(p)) {
+                                    p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.RED_CONCRETE);
                                 }
-                                hasseentip.add(p.getUniqueId());
-                            }
-                            if (particlesnorm && isVanished(p)) {
-                                p.getWorld().playEffect(p.getLocation().add(0.0D, 0.8D, 0.0D), Effect.STEP_SOUND, Material.RED_CONCRETE);
                             }
                         }
                     }
                 }
             }
-        }
+        });
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent e) {
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            final Player player = e.getPlayer();
+            final Player p = e.getPlayer();
+            final String sid = p.getUniqueId().toString();
             // This is a dev-join message sent to me only. It's to help me understand which servers support my work <3
-            if (player.getUniqueId().toString().equals("6191ff85-e092-4e9a-94bd-63df409c2079")) {
-                player.sendMessage(ChatColor.GRAY + "This server is running " + ChatColor.WHITE + "RSD " + ChatColor.GOLD + "v" + getDescription().getVersion() + ChatColor.GRAY + " for " + version);
+            if (sid.equals("6191ff85-e092-4e9a-94bd-63df409c2079")) {
+                p.sendMessage(ChatColor.GRAY + "This server is running " + ChatColor.WHITE + "RSD " + ChatColor.GOLD + "v" + getDescription().getVersion() + ChatColor.GRAY + " for " + version);
             }
             // I kindly ask you leave the above portion in ANY modification of this plugin. Thank You!
+
+
+            if(hasPUUIDs) {
+                if(!PUUIDS.contains(this, sid, "DMG-Saved")) {
+                    PUUIDS.set(this, sid, "DMG-Saved", 0);
+                }
+            }
         });
     }
 }

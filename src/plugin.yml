@@ -3,7 +3,7 @@ version: '${project.version}'
 main: com.zachduda.rsd.Main
 api-version: 1.19
 prefix: ReduceSneakDMG
-softdepend: [ ActionAnnouncer, Essentials, WorldGuard, WorldEdit ]
+softdepend: [ ActionAnnouncer, Essentials, WorldGuard, WorldEdit, PUUIDs ]
 authors: [ zach_attack ]
 description: Reduces a players fall damage when sneaking.
 website: https://zachduda.com/reducesneakdmg
