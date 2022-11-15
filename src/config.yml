@@ -10,7 +10,7 @@ settings:
     when-falling-sneak: true
     when-falling-normal: true
 
-  dmg-precent: 50.0
+  dmg-percent: 50.0
   notify:
     enable: true
     use-action-bar: true

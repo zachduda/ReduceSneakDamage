@@ -40,7 +40,7 @@ public class Main extends JavaPlugin implements Listener {
     private final boolean supported = version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16") || version.contains("1.17") || version.contains("1.18") || version.contains("1.19");
     boolean round = true;
     private boolean enabled = true;
-    private double precent = 50.0D;
+    private double percent = 50.0D;
     private boolean useperms = false;
     private boolean particlessneak = false;
     private boolean particlesnorm = false;
@@ -137,11 +137,11 @@ public class Main extends JavaPlugin implements Listener {
 
     public void updateConfig() {
         if (getConfig().getBoolean("settings.enable-plugin")) {
-            double iprecent = getConfig().getDouble("settings.dmg-precent");
+            double iprecent = getConfig().getDouble("settings.dmg-percent");
             enabled = true;
 
             log.info("Reducing damage by: " + iprecent + "%");
-            precent = iprecent;
+            percent = iprecent;
 
             round = getConfig().getBoolean("settings.round");
             useaa = getConfig().getBoolean("settings.notify.use-action-bar");
@@ -362,9 +362,9 @@ public class Main extends JavaPlugin implements Listener {
                                 final double olddam = e.getDamage();
                                 double newdam;
                                 if (round) {
-                                    newdam = Math.round(olddam) * (getConfig().getDouble("settings.dmg-precent") / 100);
+                                    newdam = Math.round(olddam) * (getConfig().getDouble("settings.dmg-percent") / 100);
                                 } else {
-                                    newdam = ((olddam) * (precent / 100));
+                                    newdam = ((olddam) * (percent / 100));
                                 }
                                 e.setDamage(newdam);
                                 final double diff = olddam - newdam;
