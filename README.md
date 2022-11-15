@@ -1,5 +1,3 @@
-[![Build Status](https://app.travis-ci.com/zachduda/ReduceSneakDamage.svg?branch=master)](https://app.travis-ci.com/zachduda/ReduceSneakDamage)
-
 # ReduceSneakDamage
 
 ReduceSneakDamage is a lightweight plugin that reduces a player's fall damage when they are sneaking by a configured
