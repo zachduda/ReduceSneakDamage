@@ -1,7 +1,7 @@
 name: ReduceSneakDamage
 version: '${project.version}'
 main: com.zachduda.rsd.Main
-api-version: 1.19
+api-version: 1.13
 prefix: ReduceSneakDMG
 softdepend: [ ActionAnnouncer, Essentials, WorldGuard, WorldEdit, PUUIDs ]
 authors: [ zach_attack ]
