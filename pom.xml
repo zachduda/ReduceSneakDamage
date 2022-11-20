@@ -113,7 +113,7 @@
         </dependency>
         <dependency>
             <groupId>com.zachduda.puuids</groupId>
-            <artifactId>actionannouncer</artifactId>
+            <artifactId>puuids</artifactId>
             <version>3.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/PUUIDs.jar</systemPath>
