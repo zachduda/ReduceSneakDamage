@@ -83,7 +83,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.2-R0.1-SNAPSHOT</version>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -113,7 +113,7 @@
         </dependency>
         <dependency>
             <groupId>com.zachduda.puuids</groupId>
-            <artifactId>actionannouncer</artifactId>
+            <artifactId>puuids</artifactId>
             <version>3.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/PUUIDs.jar</systemPath>

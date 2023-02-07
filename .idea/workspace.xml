@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="v3.0 - Quick Fix Typo of &quot;Percent&quot;">
-      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
+    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="v3.0 - Quick Fix forgot to lower API-Version">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +48,8 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.16113281",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "vcs.Git"
+    "settings.editor.selected.configurable": "vcs.Git",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -147,7 +149,10 @@
       <workItem from="1665533859697" duration="737000" />
       <workItem from="1665966076445" duration="97000" />
       <workItem from="1666793836826" duration="13000" />
-      <workItem from="1668474538339" duration="2923000" />
+      <workItem from="1668474538339" duration="3012000" />
+      <workItem from="1668518194686" duration="52000" />
+      <workItem from="1668879202747" duration="44000" />
+      <workItem from="1675788078971" duration="34000" />
     </task>
     <task id="LOCAL-00001" summary="Gradle -&gt; Maven">
       <created>1665523049494</created>
@@ -184,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668476658284</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="v3.0 - Quick Fix forgot to lower API-Version">
+      <created>1668477858586</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668477858586</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,6 +219,7 @@
     <MESSAGE value="v2.1 - Release" />
     <MESSAGE value="v3.0 - Release" />
     <MESSAGE value="v3.0 - Quick Fix Typo of &quot;Percent&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="v3.0 - Quick Fix Typo of &quot;Percent&quot;" />
+    <MESSAGE value="v3.0 - Quick Fix forgot to lower API-Version" />
+    <option name="LAST_COMMIT_MESSAGE" value="v3.0 - Quick Fix forgot to lower API-Version" />
   </component>
 </project>
