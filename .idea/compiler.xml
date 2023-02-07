@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="reducesneakdamage" target="1.8" />
+      <module name="reducesneakdamage" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

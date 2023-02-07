@@ -8,18 +8,17 @@
     <groupId>com.zachduda</groupId>
     <artifactId>reducesneakdamage</artifactId>
     <url>https://www.spigotmc.org/resources/reducesneakdamage.64357/</url>
-    <version>3.0.1</version>
+    <version>4.0.0</version>
     <packaging>jar</packaging>
 
     <description>Reduces a players fall damage when sneaking.</description>
     <properties>
-        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <licenses>
         <license>
-            <name>GNU General Public License v3.0</name>
+            <name>GPL-3.0</name>
             <url>https://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
         </license>
     </licenses>
@@ -31,8 +30,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -77,6 +76,10 @@
             <id>essentials-releases</id>
             <url>https://repo.essentialsx.net/releases/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -117,6 +120,11 @@
             <version>3.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/PUUIDs.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.CoolDCB</groupId>
+            <artifactId>ChatColorHandler</artifactId>
+            <version>v1.1</version>
         </dependency>
     </dependencies>
 </project>

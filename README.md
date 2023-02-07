@@ -3,6 +3,11 @@
 ReduceSneakDamage is a lightweight plugin that reduces a player's fall damage when they are sneaking by a configured
 percentage. It also can disable particles and be toggled per world.
 
+# Support
+- For **1.16 or newer**, download the latest version.
+- For legacy **1.12**-**1.15** support, use **v3.X** or lower.
+- Servers below 1.12 won't receive support, however additional configuration with RSD v3 *may* work with these versions.
+
 # Spigot
 
 You can view this plugin on [SpigotMC](https://www.spigotmc.org/resources/reducesneakdamage.64357/).

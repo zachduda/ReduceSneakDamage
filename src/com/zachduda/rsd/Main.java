@@ -3,8 +3,10 @@ package com.zachduda.rsd;
 import com.earth2me.essentials.Essentials;
 import com.zachduda.puuids.api.PUUIDS;
 import me.clip.actionannouncer.ActionAPI;
+import me.dave.chatcolorhandler.ChatColorHandler;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.jetbrains.annotations.NotNull;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,9 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin implements Listener {
@@ -33,11 +33,14 @@ public class Main extends JavaPlugin implements Listener {
 
     // Blood code courtesy of CraftGasM -- Thank You!
     final DecimalFormat df = new DecimalFormat("#.#");
-    private final String cprefix = "§8[§e§lR§r§eeduced§6§lS§r§6neak§f§lD§r§fmg§8]§f";
+    private final String pl_color = "&#fffd91";
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String sec_color = "&#e8e8cf";
+    private final String prefix = "&8["+pl_color+"&lRSD&r&8] " + sec_color;
     private final List<String> nonoworlds = getConfig().getStringList("settings.disabled-worlds");
     private final Logger log = getLogger();
     private final String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
-    private final boolean supported = version.contains("1.12") || version.contains("1.13") || version.contains("1.14") || version.contains("1.15") || version.contains("1.16") || version.contains("1.17") || version.contains("1.18") || version.contains("1.19");
+    private final boolean supported = version.contains("1.16") || version.contains("1.17") || version.contains("1.18") || version.contains("1.19");
     boolean round = true;
     private boolean enabled = true;
     private double percent = 50.0D;
@@ -53,10 +56,12 @@ public class Main extends JavaPlugin implements Listener {
     private BukkitTask csht = null;
     private boolean aabail = false;
 
+    private final String cm_err = "&cCheck your RSD config.yml, this message is missing or misformatted.";
+
     private boolean isGodMode(Player p) {
         if (ess) {
             Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-            return ess.getUser(p).isGodModeEnabled();
+            return Objects.requireNonNull(ess).getUser(p).isGodModeEnabled();
         }
 
         return false;
@@ -65,7 +70,7 @@ public class Main extends JavaPlugin implements Listener {
     private boolean isNotVanished(Player player) {
         if (ess) {
             Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-            if (ess.getUser(player).isVanished()) {
+            if (Objects.requireNonNull(ess).getUser(player).isVanished()) {
                 return false;
             }
         }
@@ -84,16 +89,38 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
+    protected String color(String msg) {
+        return ChatColorHandler.translateAlternateColorCodes(msg).replaceAll("%prefix%", prefix);
+    }
+
+    private void msg(CommandSender p, String msg) {
+        p.sendMessage(color(msg));
+    }
+
     public void onEnable() {
         if (!supported) {
-            Bukkit.getScheduler().runTask(this, () -> getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.17 through 1.12)"));
+            Bukkit.getScheduler().runTask(this, () -> getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.19 through 1.16)"));
         }
 
         hasseentip.clear();
 
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         getConfig().options().copyDefaults(true);
-        getConfig().options().header("ReducedSneakDamage -- A plugin by zach_attack.\n\nNeed help? Join our support discord: https://discord.gg/6ugXPfX");
+
+        List<String> confighead = new ArrayList<>();
+        confighead.add("ReducedSneakDamage -- A plugin by zach_attack.");
+        confighead.add("Need help? Join our support discord: https://discord.gg/6ugXPfX");
+
+        try {
+            getConfig().options().setHeader(confighead);
+        } catch (NoSuchMethodError e) {
+            // Using less than Java 18 will use this method instead.
+            try {
+                //noinspection deprecation
+                getConfig().options().header(confighead.get(0) + "\n" + confighead.get(1));
+            } catch (Exception giveup) { /* just skip this */ }
+        }
+
         saveConfig();
 
         updateConfig();
@@ -124,7 +151,7 @@ public class Main extends JavaPlugin implements Listener {
                 }
             } catch(Exception e) {
                 getLogger().warning("Unable to connect to PUUIDs: ");
-                e.getMessage();
+                e.printStackTrace();
             }
         }
 
@@ -136,33 +163,32 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     public void updateConfig() {
-        if (getConfig().getBoolean("settings.enable-plugin")) {
-            double iprecent = getConfig().getDouble("settings.dmg-percent");
-            enabled = true;
-
-            log.info("Reducing damage by: " + iprecent + "%");
-            percent = iprecent;
-
-            round = getConfig().getBoolean("settings.round");
-            useaa = getConfig().getBoolean("settings.notify.use-action-bar");
-            notify = getConfig().getBoolean("settings.notify.enable");
-
-            if (nonoworlds.size() != 0) {
-                log.info("Disabled in world(s): " + nonoworlds);
-            }
-
-            nonoworlds.clear();
-            nonoworlds.addAll(getConfig().getStringList("settings.disabled-worlds"));
-
-            particlessneak = getConfig().getBoolean("settings.particles.when-falling-sneak");
-            particlesnorm = getConfig().getBoolean("settings.particles.when-falling-normal");
-
-        } else {
+        if (!getConfig().getBoolean("settings.enable-plugin")) {
             log.info("Plugin disabled via the configuration...");
             enabled = false;
+            return;
+        }
+        double iprecent = getConfig().getDouble("settings.dmg-percent", 50.0D);
+        enabled = true;
+
+        log.info("Reducing damage by: " + iprecent + "%");
+        percent = iprecent;
+
+        round = getConfig().getBoolean("settings.round", true);
+        useaa = getConfig().getBoolean("settings.notify.use-action-bar", true);
+        notify = getConfig().getBoolean("settings.notify.enable", true);
+
+        if (nonoworlds.size() != 0) {
+            log.info("Disabled in world(s): " + nonoworlds);
         }
 
-        useperms = getConfig().getBoolean("settings.use-permissions");
+        nonoworlds.clear();
+        nonoworlds.addAll(getConfig().getStringList("settings.disabled-worlds"));
+
+        particlessneak = getConfig().getBoolean("settings.particles.when-falling-sneak", true);
+        particlesnorm = getConfig().getBoolean("settings.particles.when-falling-normal", true);
+
+        useperms = getConfig().getBoolean("settings.use-permissions", false);
 
         if (!supported) {
             particlessneak = false;
@@ -219,9 +245,9 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private void sendAA(Player p, String m, int time) {
-        final String mcd = ChatColor.translateAlternateColorCodes('&', m);
+        final String mcd = color(m);
         if (aabail) {
-            p.sendMessage(mcd.replace("%prefix%", cprefix));
+            msg(p, mcd);
             return;
         }
         try {
@@ -241,66 +267,66 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("reducesneakdmg")) {
             if (args.length == 0) {
-                sender.sendMessage(" ");
-                sender.sendMessage("§e§lR§r§eeduced§6§lS§r§6neak§f§lD§r§fmg");
-                sender.sendMessage("§7Do §f/rsd help §7for a list of commands.");
-                sender.sendMessage(" ");
+                msg(sender, " ");
+                msg(sender, pl_color + "&lReduce Sneak Damage");
+                msg(sender, sec_color + "Do &r&f/rsd help &#e8e8cffor a list of commands.");
+                msg(sender," ");
                 pop(sender);
                 return true;
             }
-            String prefix = "§8[§e§lR§r§eeduced§6§lS§r§6neak§f§lD§r§fmg§8] §f";
             if (args[0].equalsIgnoreCase("help")) {
                 pop(sender);
 
                 if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
-                    sender.sendMessage(prefix + "A plugin by zach_attack");
+                    msg(sender,prefix + "A plugin by zach_attack");
                     return true;
                 }
-                sender.sendMessage(prefix + "To reload the plugin, do §7/rsd reload");
+                msg(sender,prefix + "To reload the plugin, do &f/rsd reload");
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("stats")) {
                 if(!hasPUUIDs) {
-                    sender.sendMessage(prefix + "§cYou must have the PUUIDs API from Spigot to save per-player stats.");
+                    msg(sender,prefix + "You must have &f&lPUUIDs " + sec_color + "to save and view stats.");
                     bass(sender);
                     return true;
                 }
 
-                if(!(sender instanceof Player)) {
-                    sender.sendMessage(prefix + "§cOnly players can use the stats sub-command");
+                if(!(sender instanceof Player p)) {
+                    msg(sender,prefix + "&cOnly players can use the stats sub-command");
                     return true;
                 }
 
                 if (!sender.hasPermission("reducesneakdmg.stats") && useperms && !sender.isOp()) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.no-permission")).replace("%prefix%", cprefix));
+                    msg(sender, getConfig().getString("messages.no-permission", cm_err));
                     bass(sender);
                     return true;
                 }
-                Player p = (Player) sender;
                 pop(sender);
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.stats")).replace("%dmg%", df.format(PUUIDS.getDouble(this, p.getUniqueId().toString(), "DMG-Saved"))));
+                msg(sender, getConfig().getString("messages.stats", cm_err).replaceAll("%dmg%", df.format(PUUIDS.getDouble(this, p.getUniqueId().toString(), "DMG-Saved"))));
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("reload")) {
                 if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.no-permission")).replace("%prefix%", cprefix));
+                    msg(sender, getConfig().getString("messages.no-permission", cm_err));
                     bass(sender);
                     return true;
                 }
                 try {
                     reloadConfig();
                     updateConfig();
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.reload")).replace("%prefix%", cprefix));
+                    msg(sender, color(getConfig().getString("messages.reload", cm_err)));
+                    // needs extra color call even tho its in msg(). idk why.
                     reloadSound(sender);
                 } catch (Exception cfgerr) {
                     log.info("Error when reloading configuration. -----------------");
                     cfgerr.printStackTrace();
-                    sender.sendMessage(prefix + "§4§lError. §fSomething went wrong here, check your console.");
+                    msg(sender,prefix + "&cError. &rSomething went wrong here, check your console.");
                     bass(sender);
                 }
                 return true;
@@ -308,17 +334,17 @@ public class Main extends JavaPlugin implements Listener {
 
             if (args[0].equalsIgnoreCase("toggle")) {
                 if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.no-permission")).replace("%prefix%", cprefix));
+                    msg(sender, getConfig().getString("messages.no-permission", cm_err));
                     bass(sender);
                     return true;
                 }
 
                 if (enabled) {
                     getConfig().set("settings.enable-plugin", false);
-                    sender.sendMessage(prefix + "§fPlayers now take §c§lnormal fall damage §fwhen sneaking.");
+                    msg(sender,prefix + "&fPlayers now take &c&lnormal &rfall damage when sneaking.");
                 } else {
                     getConfig().set("settings.enable-plugin", true);
-                    sender.sendMessage(prefix + "§fPlayers will take §a§lless fall damage §fif sneaking.");
+                    msg(sender,prefix + "&fPlayers will take &a&lless &rfall damage when sneaking.");
                 }
 
                 saveConfig();
@@ -326,7 +352,7 @@ public class Main extends JavaPlugin implements Listener {
                 updateConfig();
                 return true;
             }
-            sender.sendMessage(prefix + "§c§lError.§f The sub command §7§l" + args[0] + "§f couldn't be found.");
+            msg(sender,prefix + "&cError.&r The sub command &r&7" + args[0] + "&r couldn't be found.");
             bass(sender);
         }
         return false;
@@ -335,8 +361,7 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDmg(EntityDamageEvent e) {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            if (e.getEntity() instanceof Player && !e.isCancelled()) {
-                Player p = (Player) e.getEntity();
+            if (e.getEntity() instanceof Player p && !e.isCancelled()) {
 
                 if (p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE) || p.getAllowFlight() || isGodMode(p)) {
                     return;
@@ -354,7 +379,7 @@ public class Main extends JavaPlugin implements Listener {
                     worldguard = false;
                 }
 
-                if (enabled && !nonoworlds.contains(p.getLocation().getWorld().getName())) {
+                if (enabled && !nonoworlds.contains(Objects.requireNonNull(p.getLocation().getWorld()).getName())) {
                     if (!useperms || p.hasPermission("reducesneakdmg.use")) {
                         if (e.getCause() == DamageCause.FALL) {
                             if (p.isSneaking()) {
@@ -362,7 +387,7 @@ public class Main extends JavaPlugin implements Listener {
                                 final double olddam = e.getDamage();
                                 double newdam;
                                 if (round) {
-                                    newdam = Math.round(olddam) * (getConfig().getDouble("settings.dmg-percent") / 100);
+                                    newdam = Math.round(olddam) * (getConfig().getDouble("settings.dmg-percent", 50.0D) / 100);
                                 } else {
                                     newdam = ((olddam) * (percent / 100));
                                 }
@@ -371,9 +396,9 @@ public class Main extends JavaPlugin implements Listener {
 
                                 if (notify) {
                                     if (useaa) {
-                                        sendAA(p, getConfig().getString("messages.fell").replace("%dmg%", df.format(diff)), 2);
+                                        sendAA(p, getConfig().getString("messages.fell", cm_err).replaceAll("%dmg%", df.format(diff)), 2);
                                     } else {
-                                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell").replace("%dmg%", df.format(diff))));
+                                        msg(p, getConfig().getString("messages.fell", cm_err).replaceAll("%dmg%", df.format(diff)));
                                     }
                                 }
 
@@ -389,9 +414,9 @@ public class Main extends JavaPlugin implements Listener {
                                 // Player is NOT sneaking.
                                 if (notify && !hasseentip.contains(p.getUniqueId())) {
                                     if (useaa) {
-                                        sendAA(p, getConfig().getString("messages.fell-tip"), 5);
+                                        sendAA(p, getConfig().getString("messages.fell-tip", cm_err), 5);
                                     } else {
-                                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.fell-tip")));
+                                        msg(p, getConfig().getString("messages.fell-tip", cm_err));
                                     }
                                     hasseentip.add(p.getUniqueId());
                                 }
@@ -414,7 +439,7 @@ public class Main extends JavaPlugin implements Listener {
             final String sid = p.getUniqueId().toString();
             // This is a dev-join message sent to me only. It's to help me understand which servers support my work <3
             if (sid.equals("6191ff85-e092-4e9a-94bd-63df409c2079")) {
-                p.sendMessage(ChatColor.GRAY + "This server is running " + ChatColor.WHITE + "RSD " + ChatColor.GOLD + "v" + getDescription().getVersion() + ChatColor.GRAY + " for " + version);
+                msg(p, "&7This server is running &fRSD &6v" + getDescription().getVersion() + "&7 for " + version);
             }
             // I kindly ask you leave the above portion in ANY modification of this plugin. Thank You!
 
