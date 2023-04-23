@@ -5,7 +5,7 @@ percentage. It also can disable particles and be toggled per world.
 
 # Support
 - For **1.16 or newer**, download the latest version.
-- For legacy **1.12**-**1.15** support, use **v3.X** or lower.
+- For legacy **1.12**-**1.15** support, it is recommended to use **v3.X**, however v4.X should still work fine.
 - Servers below 1.12 won't receive support, however additional configuration with RSD v3 *may* work with these versions.
 
 # Spigot
