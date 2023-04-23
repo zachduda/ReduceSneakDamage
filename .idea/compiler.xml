@@ -9,8 +9,5 @@
         <module name="reducesneakdamage" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="reducesneakdamage" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

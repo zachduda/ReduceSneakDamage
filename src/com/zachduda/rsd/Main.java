@@ -3,10 +3,8 @@ package com.zachduda.rsd;
 import com.earth2me.essentials.Essentials;
 import com.zachduda.puuids.api.PUUIDS;
 import me.clip.actionannouncer.ActionAPI;
-import me.dave.chatcolorhandler.ChatColorHandler;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.jetbrains.annotations.NotNull;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -25,6 +23,8 @@ import org.bukkit.scheduler.BukkitTask;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main extends JavaPlugin implements Listener {
 
@@ -33,10 +33,8 @@ public class Main extends JavaPlugin implements Listener {
 
     // Blood code courtesy of CraftGasM -- Thank You!
     final DecimalFormat df = new DecimalFormat("#.#");
-    private final String pl_color = "&#fffd91";
     @SuppressWarnings("FieldCanBeLocal")
     private final String sec_color = "&#e8e8cf";
-    private final String prefix = "&8["+pl_color+"&lRSD&r&8] " + sec_color;
     private final List<String> nonoworlds = getConfig().getStringList("settings.disabled-worlds");
     private final Logger log = getLogger();
     private final String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
@@ -90,7 +88,24 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     protected String color(String msg) {
-        return ChatColorHandler.translateAlternateColorCodes(msg).replaceAll("%prefix%", prefix);
+        msg = msg.replaceAll("&#", "#");
+        Pattern pattern = Pattern.compile("(&#|#|&)[a-fA-F0-9]{6}");
+        Matcher matcher = pattern.matcher(msg);
+        while (matcher.find()) {
+            String hexCode = msg.substring(matcher.start(), matcher.end());
+            String replaceAmp = hexCode.replaceAll("&#", "x");
+            String replaceSharp = replaceAmp.replace('#', 'x');
+
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder();
+            for (char c : ch) {
+                builder.append("&" + c);
+            }
+
+            msg = msg.replace(hexCode, builder.toString());
+            matcher = pattern.matcher(msg);
+        }
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
     private void msg(CommandSender p, String msg) {
@@ -268,8 +283,9 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String commandLabel, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("reducesneakdmg")) {
+            String pl_color = "&#fffd91";
             if (args.length == 0) {
                 msg(sender, " ");
                 msg(sender, pl_color + "&lReduce Sneak Damage");
@@ -278,28 +294,30 @@ public class Main extends JavaPlugin implements Listener {
                 pop(sender);
                 return true;
             }
+            String prefix = "&8[" + pl_color + "&lRSD&r&8] " + sec_color;
             if (args[0].equalsIgnoreCase("help")) {
                 pop(sender);
 
                 if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
-                    msg(sender,prefix + "A plugin by zach_attack");
+                    msg(sender, prefix + "A plugin by zach_attack");
                     return true;
                 }
-                msg(sender,prefix + "To reload the plugin, do &f/rsd reload");
+                msg(sender, prefix + "To reload the plugin, do &f/rsd reload");
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("stats")) {
                 if(!hasPUUIDs) {
-                    msg(sender,prefix + "You must have &f&lPUUIDs " + sec_color + "to save and view stats.");
+                    msg(sender, prefix + "You must have &f&lPUUIDs " + sec_color + "to save and view stats.");
                     bass(sender);
                     return true;
                 }
 
-                if(!(sender instanceof Player p)) {
-                    msg(sender,prefix + "&cOnly players can use the stats sub-command");
+                if(!(sender instanceof Player)) {
+                    msg(sender, prefix + "&cOnly players can use the stats sub-command");
                     return true;
                 }
+                final Player p = (Player) sender;
 
                 if (!sender.hasPermission("reducesneakdmg.stats") && useperms && !sender.isOp()) {
                     msg(sender, getConfig().getString("messages.no-permission", cm_err));
@@ -326,7 +344,7 @@ public class Main extends JavaPlugin implements Listener {
                 } catch (Exception cfgerr) {
                     log.info("Error when reloading configuration. -----------------");
                     cfgerr.printStackTrace();
-                    msg(sender,prefix + "&cError. &rSomething went wrong here, check your console.");
+                    msg(sender, prefix + "&cError. &rSomething went wrong here, check your console.");
                     bass(sender);
                 }
                 return true;
@@ -341,10 +359,10 @@ public class Main extends JavaPlugin implements Listener {
 
                 if (enabled) {
                     getConfig().set("settings.enable-plugin", false);
-                    msg(sender,prefix + "&fPlayers now take &c&lnormal &rfall damage when sneaking.");
+                    msg(sender, prefix + "&fPlayers now take &c&lnormal &rfall damage when sneaking.");
                 } else {
                     getConfig().set("settings.enable-plugin", true);
-                    msg(sender,prefix + "&fPlayers will take &a&lless &rfall damage when sneaking.");
+                    msg(sender, prefix + "&fPlayers will take &a&lless &rfall damage when sneaking.");
                 }
 
                 saveConfig();
@@ -352,7 +370,7 @@ public class Main extends JavaPlugin implements Listener {
                 updateConfig();
                 return true;
             }
-            msg(sender,prefix + "&cError.&r The sub command &r&7" + args[0] + "&r couldn't be found.");
+            msg(sender, prefix + "&cError.&r The sub command &r&7" + args[0] + "&r couldn't be found.");
             bass(sender);
         }
         return false;
@@ -361,8 +379,8 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDmg(EntityDamageEvent e) {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            if (e.getEntity() instanceof Player p && !e.isCancelled()) {
-
+            if (e.getEntity() instanceof Player && !e.isCancelled()) {
+                final Player p = (Player) e.getEntity();
                 if (p.isInvulnerable() || p.getGameMode().equals(GameMode.CREATIVE) || p.getAllowFlight() || isGodMode(p)) {
                     return;
                 }
