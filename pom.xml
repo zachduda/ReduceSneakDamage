@@ -28,8 +28,8 @@
 
     <licenses>
         <license>
-            <name>GPL-3.0</name>
-            <url>https://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+            <name>CC-BY-NC-v4</name>
+            <url>https://creativecommons.org/licenses/by-nc/4.0/</url>
         </license>
     </licenses>
 
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.4-R0.1-SNAPSHOT</version>
+            <version>1.20.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
