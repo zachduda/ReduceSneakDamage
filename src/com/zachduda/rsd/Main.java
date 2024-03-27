@@ -38,7 +38,7 @@ public class Main extends JavaPlugin implements Listener {
     private final List<String> nonoworlds = getConfig().getStringList("settings.disabled-worlds");
     private final Logger log = getLogger();
     private final String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
-    private final boolean supported = version.contains("1.16") || version.contains("1.17") || version.contains("1.18") || version.contains("1.19");
+    private final boolean supported = version.contains("1.16") || version.contains("1.17") || version.contains("1.18") || version.contains("1.19") || version.contains("1.20");
     boolean round = true;
     private boolean enabled = true;
     private double percent = 50.0D;
@@ -114,7 +114,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public void onEnable() {
         if (!supported) {
-            Bukkit.getScheduler().runTask(this, () -> getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.19 through 1.16)"));
+            Bukkit.getScheduler().runTask(this, () -> getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.20 through 1.16)"));
         }
 
         hasseentip.clear();
