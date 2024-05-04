@@ -2,7 +2,6 @@ package com.zachduda.rsd;
 
 import com.earth2me.essentials.Essentials;
 import com.zachduda.puuids.api.PUUIDS;
-import me.clip.actionannouncer.ActionAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -46,15 +45,13 @@ public class Main extends JavaPlugin implements Listener {
     private boolean particlessneak = false;
     private boolean particlesnorm = false;
     private boolean ess = false;
-    private boolean hasaa = false;
-    private boolean useaa = false;
     private boolean hasPUUIDs = false;
     private boolean notify = false;
     private boolean sounds = true;
+    private boolean useaa = true;
     private BukkitTask csht = null;
-    private boolean aabail = false;
 
-    private final String cm_err = "&cCheck your RSD config.yml, this message is missing or misformatted.";
+    private final String cm_err = "&cCheck your RSD config.yml, this message is missing or formatted.";
 
     private boolean isGodMode(Player p) {
         if (ess) {
@@ -99,7 +96,7 @@ public class Main extends JavaPlugin implements Listener {
             char[] ch = replaceSharp.toCharArray();
             StringBuilder builder = new StringBuilder();
             for (char c : ch) {
-                builder.append("&" + c);
+                builder.append("&").append(c);
             }
 
             msg = msg.replace(hexCode, builder.toString());
@@ -153,11 +150,6 @@ public class Main extends JavaPlugin implements Listener {
             getLogger().info("Found Essentials. Hooking into Essentials for vanish/god-mode support...");
         }
 
-        if (getServer().getPluginManager().isPluginEnabled("ActionAnnouncer") && (getServer().getPluginManager().getPlugin("ActionAnnouncer") != null)) {
-            getLogger().info("Hooked into ActionAnnouncer.");
-            hasaa = true;
-        }
-
         if (getServer().getPluginManager().isPluginEnabled("PUUIDs") && (getServer().getPluginManager().getPlugin("PUUIDs") != null)) {
             getLogger().info("Hooked into PUUIDs for saving damage saved.");
             try {
@@ -193,7 +185,7 @@ public class Main extends JavaPlugin implements Listener {
         useaa = getConfig().getBoolean("settings.notify.use-action-bar", true);
         notify = getConfig().getBoolean("settings.notify.enable", true);
 
-        if (nonoworlds.size() != 0) {
+        if (!nonoworlds.isEmpty()) {
             log.info("Disabled in world(s): " + nonoworlds);
         }
 
@@ -259,26 +251,12 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    private void sendAA(Player p, String m, int time) {
+    private void sendAA(Player p, String m) {
         final String mcd = color(m);
-        if (aabail) {
-            msg(p, mcd);
-            return;
-        }
         try {
-            if (!hasaa) {
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(mcd));
-                return;
-            }
-            try {
-                ActionAPI.sendTimedPlayerAnnouncement(this, p, mcd, time);
-            } catch (Exception err) {
-                hasaa = false;
-                sendAA(p, mcd, time);
-            }
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy(mcd));
         } catch (Exception err) {
-            aabail = true;
-            sendAA(p, mcd, time);
+            msg(p, mcd);
         }
     }
 
@@ -359,6 +337,7 @@ public class Main extends JavaPlugin implements Listener {
 
                 if (enabled) {
                     getConfig().set("settings.enable-plugin", false);
+                    getConfig().set("settings.enable-plugin", false);
                     msg(sender, prefix + "&fPlayers now take &c&lnormal &rfall damage when sneaking.");
                 } else {
                     getConfig().set("settings.enable-plugin", true);
@@ -414,7 +393,7 @@ public class Main extends JavaPlugin implements Listener {
 
                                 if (notify) {
                                     if (useaa) {
-                                        sendAA(p, getConfig().getString("messages.fell", cm_err).replaceAll("%dmg%", df.format(diff)), 2);
+                                        sendAA(p, getConfig().getString("messages.fell", cm_err).replaceAll("%dmg%", df.format(diff)));
                                     } else {
                                         msg(p, getConfig().getString("messages.fell", cm_err).replaceAll("%dmg%", df.format(diff)));
                                     }
@@ -432,7 +411,7 @@ public class Main extends JavaPlugin implements Listener {
                                 // Player is NOT sneaking.
                                 if (notify && !hasseentip.contains(p.getUniqueId())) {
                                     if (useaa) {
-                                        sendAA(p, getConfig().getString("messages.fell-tip", cm_err), 5);
+                                        sendAA(p, getConfig().getString("messages.fell-tip", cm_err));
                                     } else {
                                         msg(p, getConfig().getString("messages.fell-tip", cm_err));
                                     }
