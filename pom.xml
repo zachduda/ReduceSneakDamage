@@ -8,14 +8,14 @@
     <groupId>com.zachduda</groupId>
     <artifactId>reducesneakdamage</artifactId>
     <url>https://www.spigotmc.org/resources/reducesneakdamage.64357/</url>
-    <version>4.0.1</version>
+    <version>4.2.0</version>
     <packaging>jar</packaging>
 
     <description>Reduces a players fall damage when sneaking.</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spigot.version>1.20.4-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.20.5-R0.1-SNAPSHOT</spigot.version>
     </properties>
 
     <distributionManagement>
@@ -117,13 +117,6 @@
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.0.0-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.clip.actionannouncer</groupId>
-            <artifactId>actionannouncer</artifactId>
-            <version>1.16.4</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ActionAnnouncer.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.zachduda</groupId>
