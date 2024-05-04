@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="v4.1 - Release">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducesneakdamage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/reducesneakdamage.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" afterDir="false" />
+    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="remove action announcer, hasn't been updated in 3 years.">
+      <change beforePath="$PROJECT_DIR$/lib/ActionAnnouncer.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,6 +286,7 @@
     <MESSAGE value="update maven typo and use 1.19.3" />
     <MESSAGE value="more pom adjustments" />
     <MESSAGE value="v4.1 - Release" />
-    <option name="LAST_COMMIT_MESSAGE" value="v4.1 - Release" />
+    <MESSAGE value="remove action announcer, hasn't been updated in 3 years." />
+    <option name="LAST_COMMIT_MESSAGE" value="remove action announcer, hasn't been updated in 3 years." />
   </component>
 </project>
