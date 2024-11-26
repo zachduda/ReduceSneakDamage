@@ -20,8 +20,10 @@ settings:
     - world_the_end
 messages:
   # Prefix has a space built in.
+  # Stats feature only available when PUUIDs plugin is installed with RSD.
   no-permission: '%prefix%&c&lSorry! &fYou can''t do that here'
   reload: '%prefix%The config was reloaded.'
   fell: '&fYou saved &#ffe27a&l%dmg% &fdamage by crouching'
   fell-tip: '&#ffe27a&lTip: &fNext time, crouch when you fall to reduce damage!'
   stats: '&8&l> &fYou''ve prevented &#ffe27a&l%dmg%&r &ffall damage from crouching to date.'
+  stats-tip: ''

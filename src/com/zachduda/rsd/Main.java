@@ -276,8 +276,12 @@ public class Main extends JavaPlugin implements Listener {
             if (args[0].equalsIgnoreCase("help")) {
                 pop(sender);
 
-                if (!sender.hasPermission("reducesneakdmg.admin") && useperms && !sender.isOp()) {
-                    msg(sender, prefix + "A plugin by zach_attack");
+                if ((useperms && !sender.hasPermission("reducesneakdmg.admin")) || !sender.isOp()) {
+                    if(hasPUUIDs) {
+                        msg(sender, prefix + "Do " + pl_color + "&l/rsd stats " + sec_color + "to see saved health.");
+                    } else {
+                        msg(sender, prefix + "A plugin by " + pl_color + "&lzach_attack");
+                    }
                     return true;
                 }
                 msg(sender, prefix + "To reload the plugin, do &f/rsd reload");
