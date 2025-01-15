@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="remove config extra">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link.">
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +269,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732597083129</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link.">
+      <option name="closed" value="true" />
+      <created>1736975947763</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1736975947763</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,6 +307,7 @@
     <MESSAGE value="remove action announcer, hasn't been updated in 3 years." />
     <MESSAGE value="v4.2.0 - Release" />
     <MESSAGE value="remove config extra" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove config extra" />
+    <MESSAGE value="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link." />
+    <option name="LAST_COMMIT_MESSAGE" value="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link." />
   </component>
 </project>
