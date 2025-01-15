@@ -121,7 +121,7 @@ public class Main extends JavaPlugin implements Listener {
 
         List<String> confighead = new ArrayList<>();
         confighead.add("ReducedSneakDamage -- A plugin by zach_attack.");
-        confighead.add("Need help? Join our support discord: https://discord.gg/6ugXPfX");
+        confighead.add("Need help? Join our support discord: https://zachduda.com/discord");
 
         try {
             getConfig().options().setHeader(confighead);
