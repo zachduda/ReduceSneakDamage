@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link.">
+    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="force Java 8 in shading">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +59,9 @@
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Maven.ReduceSneakDamage Build.executor&quot;: &quot;Run&quot;,
     &quot;Maven.reducesneakdamage [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.reducesneakdamage [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.reducesneakdamage [package].executor&quot;: &quot;Run&quot;,
     &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
     &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
@@ -72,10 +78,10 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.16113281&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.5314685&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -129,7 +135,7 @@
             <option name="environmentProperties">
               <map />
             </option>
-            <option name="jreName" value="#USE_PROJECT_JDK" />
+            <option name="jreName" value="corretto-21" />
             <option name="mavenProperties">
               <map />
             </option>
@@ -168,6 +174,9 @@
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\vay0m\AppData\Roaming\Subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="" />
@@ -277,7 +286,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736975947763</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="force Java 8 in shading">
+      <option name="closed" value="true" />
+      <created>1736976228875</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736976228875</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,6 +325,7 @@
     <MESSAGE value="v4.2.0 - Release" />
     <MESSAGE value="remove config extra" />
     <MESSAGE value="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link." />
-    <option name="LAST_COMMIT_MESSAGE" value="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link." />
+    <MESSAGE value="force Java 8 in shading" />
+    <option name="LAST_COMMIT_MESSAGE" value="force Java 8 in shading" />
   </component>
 </project>
