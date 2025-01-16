@@ -8,7 +8,7 @@
     <groupId>com.zachduda</groupId>
     <artifactId>reducesneakdamage</artifactId>
     <url>https://www.spigotmc.org/resources/reducesneakdamage.64357/</url>
-    <version>4.2.0</version>
+    <version>4.3.0</version>
     <packaging>jar</packaging>
 
     <description>Reduces a players fall damage when sneaking.</description>
