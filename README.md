@@ -4,7 +4,7 @@
 ReduceSneakDamage is a lightweight plugin that reduces a player's fall damage when they are sneaking by a configured
 percentage. It also can disable particles and be toggled per world.
 
-**Looking for beta builds?**. You can download and use the latest beta builds at your own risk **[here](https://ci.zachduda.com/ReduceSneakDamage/)**.
+**Looking for beta builds?**. You can download and use the latest beta builds at your own risk **[here](https://ci.zachduda.com/job/ReduceSneakDamage/)**.
 
 # Support
 - For **1.16 or newer**, download the latest version.
