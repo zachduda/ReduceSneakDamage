@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="Update to Java 21.  Minimum version now 1.20">
+    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="bump 1.21.8 in pom">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reducesneakdamage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/reducesneakdamage.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +34,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/zachduda/ReduceSneakDamage.git&quot;,
-    &quot;accountId&quot;: &quot;a9d099f7-6b52-47f6-8c21-d7e9e48a3abc&quot;
+    &quot;accountId&quot;: &quot;81bc886c-c108-460a-b7de-204639ca68b2&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -45,7 +47,6 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2G0Hlw8LqZQIxfunMvmvQnb5UeP" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -137,7 +138,6 @@
               <map />
             </option>
             <option name="passParentEnv" value="true" />
-            <option name="runMavenInBackground" value="true" />
             <option name="skipTests" value="false" />
             <option name="vmOptions" value="" />
           </MavenRunnerSettings>
@@ -299,7 +299,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736976806002</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="bump 1.21.8 in pom">
+      <option name="closed" value="true" />
+      <created>1757550673353</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1757550673353</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -332,6 +340,7 @@
     <MESSAGE value="Bump to WorldEdit 7.3.9, WorldGuard 7.1-S, 1.21.4, and change internal link." />
     <MESSAGE value="force Java 8 in shading" />
     <MESSAGE value="Update to Java 21.  Minimum version now 1.20" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update to Java 21.  Minimum version now 1.20" />
+    <MESSAGE value="bump 1.21.8 in pom" />
+    <option name="LAST_COMMIT_MESSAGE" value="bump 1.21.8 in pom" />
   </component>
 </project>

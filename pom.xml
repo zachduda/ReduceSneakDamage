@@ -15,7 +15,7 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spigot.version>1.21.8-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.21.10-R0.1-SNAPSHOT</spigot.version>
     </properties>
 
     <distributionManagement>
@@ -38,16 +38,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
-                <configuration>
-                    <source>21</source>
-                    <target>21</target>
-                </configuration>
+                <version>3.14.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -105,7 +101,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.8-R0.1-SNAPSHOT</version>
+            <version>1.21.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -127,9 +123,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.zachduda</groupId>
+            <groupId>com.zachduda</groupId>
             <artifactId>puuids</artifactId>
-            <version>v3.2.2</version>
+            <version>4.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
