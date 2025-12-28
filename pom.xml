@@ -105,13 +105,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.essentialsx</groupId>
             <artifactId>EssentialsX</artifactId>
-            <version>2.20.1</version>
+            <version>2.21.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -127,9 +127,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.zachduda</groupId>
+            <groupId>com.zachduda</groupId>
             <artifactId>puuids</artifactId>
-            <version>v3.2.2</version>
+            <version>4.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
