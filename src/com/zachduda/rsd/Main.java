@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("PatternVariableCanBeUsed")
 public class Main extends JavaPlugin implements Listener {
 
     static boolean worldguard = false;
@@ -111,7 +112,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public void onEnable() {
         if (!supported) {
-            Bukkit.getScheduler().runTask(this, () -> getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.20 through 1.16)"));
+            Bukkit.getScheduler().runTask(this, () -> getLogger().warning("> This plugin may not work for this version of Minecraft. (Supports 1.20 & 1.21 - Use v3 for older versions.)"));
         }
 
         hasseentip.clear();
