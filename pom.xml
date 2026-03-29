@@ -92,8 +92,8 @@
             <url>https://repo.essentialsx.net/releases/</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>zachduda.com-maven</id>
+            <url>https://maven.zachduda.com/repository/maven-releases/</url>
         </repository>
     </repositories>
 
@@ -120,6 +120,12 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.3.9</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zachduda</groupId>
+            <artifactId>puuids</artifactId>
+            <version>4.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
