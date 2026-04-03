@@ -20,9 +20,8 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>reducesneakdamage</name>
-            <url>https://maven.pkg.github.com/zachduda/reducesneakdamage</url>
+            <id>zachduda-maven-release</id>
+            <url>https://maven.zachduda.com/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 
@@ -120,12 +119,6 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.3.9</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.zachduda</groupId>
-            <artifactId>puuids</artifactId>
-            <version>4.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

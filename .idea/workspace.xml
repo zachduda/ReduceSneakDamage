@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="Update to Java 21.  Minimum version now 1.20">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="test self maven">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducesneakdamage.iml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +44,14 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="outputLevel" value="DEBUG" />
+        <option name="userSettingsFile" value="C:\Users\vay0m\.m2\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -65,6 +70,7 @@
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
     &quot;Maven.ReduceSneakDamage Build.executor&quot;: &quot;Run&quot;,
     &quot;Maven.reducesneakdamage [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.reducesneakdamage [deploy].executor&quot;: &quot;Run&quot;,
     &quot;Maven.reducesneakdamage [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.reducesneakdamage [package].executor&quot;: &quot;Run&quot;,
     &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
@@ -89,7 +95,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.16113281&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.52913755&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -101,7 +107,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Maven.reducesneakdamage [deploy]">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="rsd" />
       <method v="2">
@@ -133,6 +139,36 @@
             </option>
             <option name="multimoduleDir" />
             <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="reducesneakdamage [deploy]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="deploy" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" value="pom.xml" />
             <option name="profilesMap">
               <map />
             </option>
@@ -317,6 +353,7 @@
     <MESSAGE value="force Java 8 in shading" />
     <MESSAGE value="Update to Java 21.  Minimum version now 1.20" />
     <MESSAGE value="bump dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="bump dependencies" />
+    <MESSAGE value="test self maven" />
+    <option name="LAST_COMMIT_MESSAGE" value="test self maven" />
   </component>
 </project>
