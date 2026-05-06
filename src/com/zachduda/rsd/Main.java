@@ -38,7 +38,7 @@ public class Main extends JavaPlugin implements Listener {
     private final List<String> nonoworlds = getConfig().getStringList("settings.disabled-worlds");
     private final Logger log = getLogger();
     private final String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
-    private final boolean supported = version.contains("1.20") || version.contains("1.21");
+    private final boolean supported = version.contains("1.20") || version.contains("1.21") || version.contains("26.1");
     boolean round = true;
     private boolean enabled = true;
     private double percent = 50.0D;
