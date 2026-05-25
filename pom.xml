@@ -124,7 +124,7 @@
         <dependency>
             <groupId>com.zachduda</groupId>
             <artifactId>puuids</artifactId>
-            <version>4.0.0</version>
+            <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
