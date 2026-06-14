@@ -21,7 +21,7 @@
     <distributionManagement>
         <repository>
             <id>zachduda-maven-release</id>
-            <url>https://maven.zachduda.com/repository/maven-releases/</url>
+            <url>https://maven.zachduda.com/releases</url>
         </repository>
     </distributionManagement>
 
@@ -92,7 +92,7 @@
         </repository>
         <repository>
             <id>zachduda.com-maven</id>
-            <url>https://maven.zachduda.com/repository/maven-releases/</url>
+            <url>https://zachduda.com/maven</url>
         </repository>
     </repositories>
 

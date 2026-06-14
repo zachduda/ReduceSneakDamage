@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="test self maven">
+    <list default="true" id="70bc09f5-9f91-4c2f-81dc-b7417d0f6a45" name="Changes" comment="use local maven deploy">
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/zachduda/rsd/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -354,6 +355,7 @@
     <MESSAGE value="Update to Java 21.  Minimum version now 1.20" />
     <MESSAGE value="bump dependencies" />
     <MESSAGE value="test self maven" />
-    <option name="LAST_COMMIT_MESSAGE" value="test self maven" />
+    <MESSAGE value="use local maven deploy" />
+    <option name="LAST_COMMIT_MESSAGE" value="use local maven deploy" />
   </component>
 </project>
