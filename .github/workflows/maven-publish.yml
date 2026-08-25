@@ -19,10 +19,10 @@ jobs:
         java-version: '25'
         distribution: 'temurin'
         cache: maven
-        server-id: zachduda-maven-release # Value of the distributionManagement/repository/id field of the pom.xml
+        server-id: zachduda-maven-release
         server-username: MAVEN_DEPLOY_USERNAME
         server-password: MAVEN_DEPLOY_PASSWORD
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        settings-path: ${{ github.workspace }}
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
