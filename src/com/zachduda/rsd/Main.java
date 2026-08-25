@@ -18,6 +18,7 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
+import org.jspecify.annotations.NonNull;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -25,7 +26,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("PatternVariableCanBeUsed")
 public class Main extends JavaPlugin implements Listener {
 
     static boolean worldguard = false;
@@ -37,8 +37,59 @@ public class Main extends JavaPlugin implements Listener {
     private final String sec_color = "&#e8e8cf";
     private final List<String> nonoworlds = getConfig().getStringList("settings.disabled-worlds");
     private final Logger log = getLogger();
-    private final String version = Bukkit.getBukkitVersion().replace("-SNAPSHOT", "");
-    private final boolean supported = version.contains("1.20") || version.contains("1.21") || version.contains("26.1");
+
+    private int mcMajorVersion;
+    private int mcMinorVersion;
+
+    public String getMCVersion() {
+
+        String this_ver = Bukkit.getBukkitVersion()
+                .toUpperCase()
+                .replaceAll("-.+$", "");
+
+        Pattern versionPattern = Pattern.compile("^(\\d+)\\.(\\d+)(?:\\.(\\d+))?");
+        Matcher version = versionPattern.matcher(this_ver);
+
+        if (version.find()) {
+            String major = version.group(1);
+            String minor = version.group(2);
+            String patch = version.group(3);
+
+            if (patch == null) {
+                patch = "0";
+            }
+
+            this_ver = major + "." + minor + "." + patch;
+        } else {
+            return "X.XX";
+        }
+
+        mcMajorVersion = Integer.parseInt(version.group(1));
+        mcMinorVersion = Integer.parseInt(version.group(2));
+        int mcPatchVersion;
+        try {
+            mcPatchVersion = Integer.parseInt(version.group(3));
+        } catch (final Exception e) {
+            mcPatchVersion = 0;
+        }
+        return (version.group(1) + "." + version.group(2));
+    }
+
+    public boolean isSupported() {
+        getMCVersion();
+        if(mcMajorVersion == 1) {
+            if(mcMinorVersion >= 20) {
+                return true;
+            } else {
+                log.warning("RSD v3 is recommended for servers running lower than 1.20.");
+            }
+        }
+        return mcMajorVersion == 26;
+    }
+
+    private final String version = getMCVersion();
+    private final boolean supported = isSupported();
+
     boolean round = true;
     private boolean enabled = true;
     private double percent = 50.0D;
@@ -262,7 +313,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    public boolean onCommand(@NonNull CommandSender sender, Command cmd, @NonNull String commandLabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("reducesneakdmg")) {
             String pl_color = "&#fffd91";
             if (args.length == 0) {

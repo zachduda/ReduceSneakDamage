@@ -52,6 +52,11 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="essentials-snapshots" />
+      <option name="name" value="essentials-snapshots" />
+      <option name="url" value="https://repo.essentialsx.net/snapshots/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="zachduda-releases" />
       <option name="name" value="zachduda-releases" />
       <option name="url" value="https://maven.zachduda.com/repository/maven-releases/" />
